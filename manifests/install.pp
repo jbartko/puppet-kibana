@@ -1,6 +1,6 @@
 class kibana::install {
   # TODO: parameterize this
-  $path = '/srv/www/kibana'
+  $dir = '/srv/www/kibana'
 
   # TODO: modulefile requires puppetlabs-ruby
   class { 'ruby':
@@ -19,7 +19,7 @@ class kibana::install {
   }
 
   # TODO: modulefile requires vcsrepo
-  vcsrepo { $path:
+  vcsrepo { $dir:
     ensure   => present,
     provider => 'git',
     source   => 'git://github.com/rashidkpc/Kibana.git',
@@ -28,9 +28,10 @@ class kibana::install {
   }
 
   exec { 'bundler':
-    command => "/usr/bin/bundle install",
-    cwd     => $path,
-    require => [ Vcsrepo[$path], Package['bundler'] ],
+    command => "bundle install",
+    path    => $::path,
+    cwd     => $dir,
+    require => [ Vcsrepo[$dir], Package['bundler'] ],
   }
 }
 
