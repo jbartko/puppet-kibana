@@ -4,8 +4,9 @@ class kibana::install {
 
   # TODO: modulefile requires puppetlabs-ruby
   class { 'ruby':
-    version      => 'latest',
-    gems_version => 'latest',
+    version         => 'latest',
+    gems_version    => 'latest',
+    rubygems_update => false,
   }
 
   # TODO: modulefile requires puppetlabs-git
