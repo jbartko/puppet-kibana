@@ -9,7 +9,7 @@ class kibana::install {
     revision => 'kibana-ruby',
   }
 
-  bundler::install { '/srv/www/kibana': require => Vcsrepo['/srv/www/kibana'] }
+#  bundler::install { '/srv/www/kibana': require => Vcsrepo['/srv/www/kibana'] }
 }
 
 # vim: set ts=2 sw=2 et ft=puppet:
