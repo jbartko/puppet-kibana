@@ -2,12 +2,19 @@ class kibana::install {
   # TODO: parameterize this
   $path = '/srv/www/kibana'
 
+  # TODO: modulefile requires puppetlabs-ruby
+  class { 'ruby':
+    version      => 'latest',
+    gems_version => 'latest',
+  }
+
   # TODO: modulefile requires puppetlabs-git
   include git
 
   package { 'bundler':
     ensure   => latest,
     provider => 'gem',
+    require  => Class['ruby'],
   }
 
   # TODO: modulefile requires vcsrepo
