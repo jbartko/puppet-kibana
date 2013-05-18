@@ -28,7 +28,7 @@ class kibana::install {
   }
 
   exec { 'bundler':
-    command => "bundle install",
+    command => 'bundle install',
     path    => $::path,
     cwd     => $dir,
     require => [ Vcsrepo[$dir], Package['bundler'] ],
@@ -36,12 +36,13 @@ class kibana::install {
 
   # TODO: modulefile requires blt04-rvm
   include rvm
+  rvm_system_ruby { 'ruby-2.0.0-p0': ensure => present, default_use => true, }
   rvm::system_user { 'jbartko': }
   class { 'rvm::passenger::apache':
-    version => latest,
-    ruby_version => latest,
+    version      => '4.0.2',
+    ruby_version => 'ruby-2.0.0-p0',
     mininstances => '3',
-    maxpoolsize => '30',
+    maxpoolsize  => '30',
   }
 }
 
