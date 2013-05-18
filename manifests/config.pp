@@ -1,4 +1,4 @@
-class kibana::params {
+class kibana::config {
 
 }
 
