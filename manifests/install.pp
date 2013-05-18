@@ -33,6 +33,16 @@ class kibana::install {
     cwd     => $dir,
     require => [ Vcsrepo[$dir], Package['bundler'] ],
   }
+
+  # TODO: modulefile requires blt04-rvm
+  include rvm
+  rvm::system_user { 'jbartko': }
+  class { 'rvm::passenger::apache':
+    version => latest,
+    ruby_version => latest,
+    mininstances => '3',
+    maxpoolsize => '30',
+  }
 }
 
 # vim: set ts=2 sw=2 et ft=puppet:
