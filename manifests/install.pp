@@ -3,11 +3,14 @@ class kibana::install {
   $dir = '/srv/www/kibana'
 
   # TODO: modulefile requires puppetlabs-ruby
-  class { 'ruby':
-    version         => 'latest',
-    gems_version    => 'latest',
-    rubygems_update => false,
-  }
+  #class { 'ruby':
+  #  version         => 'latest',
+  #  gems_version    => 'latest',
+  #  rubygems_update => false,
+  #}
+  include rvm
+  rvm_system_ruby { 'ruby-2.0.0-p0': ensure => present, default_use => true, }
+  rvm::system_user { 'jbartko': }
 
   # TODO: modulefile requires puppetlabs-git
   include git
@@ -15,7 +18,7 @@ class kibana::install {
   package { 'bundler':
     ensure   => latest,
     provider => 'gem',
-    require  => Class['ruby'],
+    require  => Rvm_system_ruby['ruby-2.0.0-p0'],
   }
 
   # TODO: modulefile requires vcsrepo
@@ -34,15 +37,15 @@ class kibana::install {
     require => [ Vcsrepo[$dir], Package['bundler'] ],
   }
 
+  include apache
+
   # TODO: modulefile requires blt04-rvm
-  include rvm
-  rvm_system_ruby { 'ruby-2.0.0-p0': ensure => present, default_use => true, }
-  rvm::system_user { 'jbartko': }
   class { 'rvm::passenger::apache':
     version      => '4.0.2',
     ruby_version => 'ruby-2.0.0-p0',
     mininstances => '3',
     maxpoolsize  => '30',
+    require      => Class['apache'],
   }
 }
 
