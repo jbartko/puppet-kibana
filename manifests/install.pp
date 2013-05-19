@@ -37,7 +37,7 @@ class kibana::install {
     require => [ Vcsrepo[$dir], Package['bundler'] ],
   }
 
-  include apache
+  class { 'apache': default_vhost => false, }
 
   # TODO: modulefile requires blt04-rvm
   class { 'rvm::passenger::apache':
@@ -45,7 +45,6 @@ class kibana::install {
     ruby_version => 'ruby-2.0.0-p0',
     mininstances => '3',
     maxpoolsize  => '30',
-    require      => Class['apache'],
   }
 }
 
