@@ -12,8 +12,7 @@ class kibana::install {
   rvm_system_ruby { 'ruby-2.0.0-p0': ensure => present, default_use => true;
                     'ruby-2.0.0-p0-dev': ensure => present, }
   rvm_gem { 'bundler':
-    ensure       => latest,
-#    name => 'bundler',
+    ensure       => present,
     ruby_version => 'ruby-2.0.0-p0',
     require      => Rvm_system_ruby['ruby-2.0.0-p0'],
   }
@@ -21,16 +20,6 @@ class kibana::install {
 
   # TODO: modulefile requires puppetlabs-git
   include git
-
-  # This is insufficient
-  #package { 'bundler':
-  #  ensure   => latest,
-  #  provider => 'gem',
-  #  require  => [
-  #    Rvm_system_ruby['ruby-2.0.0-p0'],
-  #    Rvm_system_ruby['ruby-2.0.0-p0-dev']
-  #  ],
-  #}
 
   # TODO: modulefile requires vcsrepo
   vcsrepo { $dir:
@@ -41,7 +30,6 @@ class kibana::install {
     require  => Class['git'],
   }
 
-  # TODO: echo 'export FACTER_gem_home=$GEM_HOME' >> /etc/environment
   exec { 'bundler':
     command => 'bundle install',
     path    => $::path,
