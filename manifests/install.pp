@@ -9,7 +9,8 @@ class kibana::install {
   #  rubygems_update => false,
   #}
   include rvm
-  rvm_system_ruby { 'ruby-2.0.0-p0': ensure => present, default_use => true, }
+  rvm_system_ruby { 'ruby-2.0.0-p0': ensure => present, default_use => true;
+                    'ruby-2.0.0-p0-dev': ensure => present, }
   rvm::system_user { 'jbartko': }
 
   # TODO: modulefile requires puppetlabs-git
@@ -18,7 +19,10 @@ class kibana::install {
   package { 'bundler':
     ensure   => latest,
     provider => 'gem',
-    require  => Rvm_system_ruby['ruby-2.0.0-p0'],
+    require  => [
+      Rvm_system_ruby['ruby-2.0.0-p0'],
+      Rvm_system_ruby['ruby-2.0.0-p0-dev']
+    ],
   }
 
   # TODO: modulefile requires vcsrepo
