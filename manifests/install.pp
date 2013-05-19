@@ -34,10 +34,12 @@ class kibana::install {
     require  => Class['git'],
   }
 
+  # TODO: echo 'export FACTER_gem_home=$GEM_HOME' >> /etc/environment
   exec { 'bundler':
     command => 'bundle install',
     path    => $::path,
     cwd     => $dir,
+    creates => "${::gem_home}/bin/kibana",
     require => [ Vcsrepo[$dir], Package['bundler'] ],
   }
 
