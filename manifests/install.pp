@@ -39,7 +39,8 @@ class kibana::install {
     command => 'bundle install',
     path    => $::path,
     cwd     => $dir,
-    creates => "${::gem_home}/bin/kibana",
+#    creates => "${::gem_home}/bin/kibana",
+    creates => inline_template('<%= ENV[\'GEM_HOME\'] -%>/bin/kibana'),
     require => [ Vcsrepo[$dir], Package['bundler'] ],
   }
 
