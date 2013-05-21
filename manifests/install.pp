@@ -1,3 +1,13 @@
+
+class bundler {
+  package { 'bundler':
+    ensure   => latest,
+    provider => 'gem',
+    require  => Class['ruby'],
+  }
+}
+# Warning: puppet abuse!
+
 class kibana::install {
   # TODO: parameterize this
   $dir = '/srv/www/kibana'
@@ -33,14 +43,6 @@ class kibana::install {
   }
 }
 
-class bundler {
-  package { 'bundler':
-    ensure   => latest,
-    provider => 'gem',
-    require  => Class['ruby'],
-  }
-}
-# Warning: puppet abuse!
 
 
 
