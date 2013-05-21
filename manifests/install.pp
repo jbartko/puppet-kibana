@@ -21,6 +21,7 @@ class kibana::install {
     gems_version    => 'latest',
     rubygems_update => false,
   }
+  include bundler
 
   # TODO: modulefile requires puppetlabs-git
   include git
