@@ -15,6 +15,7 @@ class kibana::install {
     ensure       => present,
     ruby_version => 'ruby-2.0.0-p0',
     require      => Rvm_system_ruby['ruby-2.0.0-p0'],
+    before       => Exec['bundler'],
   }
   rvm::system_user { 'jbartko': }
 
