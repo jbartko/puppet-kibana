@@ -18,15 +18,7 @@ class kibana::install {
       gems_version    => 'latest',
       rubygems_update => false,
     }
-    include bundler
 
-    exec { 'bundler':
-      command => 'bundle install',
-      path    => $::path,
-      cwd     => $dir,
-      unless  => 'bundle check',
-      require => [ Vcsrepo[$dir], Class['bundler'] ],
-    }
   }
 
   # TODO: parameterize this
@@ -45,6 +37,14 @@ class kibana::install {
     revision => 'kibana-ruby',
     require  => Class['git'],
   }
+
+  exec { 'bundler':
+    command => 'bundle install',
+    path    => $::path,
+    cwd     => $dir,
+    unless  => 'bundle check',
+    require => [ Vcsrepo[$dir] ],
+  }
 }
 
 # dirty dirty systemruby hack
@@ -53,6 +53,7 @@ class bundler {
     ensure   => latest,
     provider => 'gem',
     require  => Class['ruby'],
+    before   => Exec['bundler'],
   }
 }
 # Warning: puppet abuse!
