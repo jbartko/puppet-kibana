@@ -1,26 +1,38 @@
-class bundler {
-  package { 'bundler':
-    ensure   => latest,
-    provider => 'gem',
-    require  => Class['ruby'],
-  }
-}
-# Warning: puppet abuse!
-
 class kibana::install {
+  if $kibana::rvm == true {
+    # TODO: modulefile requires blt04-rvm
+    include rvm
+    rvm_system_ruby { 'ruby-2.0.0-p0': ensure => present, default_use => true;
+                      'ruby-2.0.0-p0-dev': ensure => present, }
+    rvm_gem { 'bundler':
+      ensure       => present,
+      ruby_version => 'ruby-2.0.0-p0',
+      require      => Rvm_system_ruby['ruby-2.0.0-p0'],
+      before       => Exec['bundler'],
+    }
+    # rvm::system_user { [ 'jbartko' ]: }
+  } else {
+    # TODO: modulefile requires puppetlabs-ruby
+    class { 'ruby':
+      version         => 'latest',
+      gems_version    => 'latest',
+      rubygems_update => false,
+    }
+    include bundler
+
+    exec { 'bundler':
+      command => 'bundle install',
+      path    => $::path,
+      cwd     => $dir,
+      unless  => 'bundle check',
+      require => [ Vcsrepo[$dir], Class['bundler'] ],
+    }
+  }
+
   # TODO: parameterize this
   $dir = '/srv/www/kibana'
 
   class { 'apache': default_vhost => false, }
-  apache::mod { 'passenger': }
-
-  # TODO: modulefile requires puppetlabs-ruby
-  class { 'ruby':
-    version         => 'latest',
-    gems_version    => 'latest',
-    rubygems_update => false,
-  }
-  include bundler
 
   # TODO: modulefile requires puppetlabs-git
   include git
@@ -33,52 +45,16 @@ class kibana::install {
     revision => 'kibana-ruby',
     require  => Class['git'],
   }
-
-  exec { 'bundler':
-    command => 'bundle install',
-    path    => $::path,
-    cwd     => $dir,
-    unless  => 'bundle check',
-    require => [ Vcsrepo[$dir], Class['bundler'] ],
-  }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#  # TODO: modulefile requires blt04-rvm
-#  class { 'rvm::passenger::apache':
-#    version      => '4.0.2',
-#    ruby_version => 'ruby-2.0.0-p0',
-#    mininstances => '3',
-#    maxpoolsize  => '30',
-#  }
-#  include rvm
-#  rvm_system_ruby { 'ruby-2.0.0-p0': ensure => present, default_use => true;
-#                    'ruby-2.0.0-p0-dev': ensure => present, }
-#  rvm_gem { 'bundler':
-#    ensure       => present,
-#    ruby_version => 'ruby-2.0.0-p0',
-#    require      => Rvm_system_ruby['ruby-2.0.0-p0'],
-#    before       => Exec['bundler'],
-#  }
-#  rvm::system_user { 'jbartko': }
+# dirty dirty systemruby hack
+class bundler {
+  package { 'bundler':
+    ensure   => latest,
+    provider => 'gem',
+    require  => Class['ruby'],
+  }
+}
+# Warning: puppet abuse!
 
 # vim: set ts=2 sw=2 et ft=puppet:

@@ -35,7 +35,7 @@
 #
 # Copyright 2013 Your name here, unless otherwise noted.
 #
-class kibana() inherits kibana::params {
+class kibana($rvm = $kibana::params::rvm) inherits kibana::params {
   class { 'kibana::install': } ->
   class { 'kibana::config': } ~>
   class { 'kibana::service': } ->
