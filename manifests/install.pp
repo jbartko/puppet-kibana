@@ -1,4 +1,3 @@
-
 class bundler {
   package { 'bundler':
     ensure   => latest,
