@@ -16,6 +16,9 @@ class kibana::config {
     include apache::mod::passenger
   }
 }
-Class['kibana::config'] ~> Service['httpd']
+
+if defined(Class['kibana']) {
+  Class['kibana::config'] ~> Service['httpd']
+}
 
 # vim: ts=2 sw=2 et ft=puppet:
