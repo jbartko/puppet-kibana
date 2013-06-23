@@ -3,7 +3,7 @@ class kibana::config {
     port     => '8080',
     docroot  => '/srv/www/kibana/public',
     options  => [ '-Indexes', '-MultiViews' ],
-    override => 'None'
+    override => [ 'None' ],
   }
   if $kibana::rvm == true {
     class { 'rvm::passenger::apache':
