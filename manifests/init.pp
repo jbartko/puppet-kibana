@@ -35,7 +35,12 @@
 #
 # Copyright 2013 Your name here, unless otherwise noted.
 #
-class kibana($rvm = $kibana::params::rvm) inherits kibana::params {
+class kibana($rvm = 'UNSET') {
+  include kibana::params
+  $rvm_real = $rvm ? {
+    'UNSET' => false,
+    default => $rvm,
+  }
   class { 'kibana::install': } ->
   class { 'kibana::config': } ~>
   class { 'kibana::service': } ->
