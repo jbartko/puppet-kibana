@@ -1,11 +1,14 @@
-name    'jbartko-kibana'
+name 'puppet-kibana'
 version '0.0.1'
-source 'UNKNOWN'
-author 'jbartko'
+source 'https://github.com/jbartko/puppet-kibana'
+author 'John Bartko <jbartko@gmail.com>'
 license 'Apache License, Version 2.0'
-summary 'UNKNOWN'
-description 'UNKNOWN'
-project_page 'UNKNOWN'
+summary 'Puppet module for Kibana'
+description 'This module deploys Rashid Khan's Kibana frontend for
+  elasticsearch and logstash.'
 
-## Add dependencies, if any:
-# dependency 'username/name', '>= 1.2.0'
+dependency 'blt04/puppet-rvm',   '>= 1.x'
+dependency 'puppetlabs/git',     '>= 0.0.2'
+dependency 'puppetlabs/ruby',    '>= 0.0.2'
+dependency 'puppetlabs/stdlib',  '>= 2.1.x'
+dependency 'puppetlabs/vcsrepo', '>= 0.1.2'
