@@ -1,6 +1,5 @@
 class kibana::install {
   if $kibana::rvm_real == true {
-    # TODO: modulefile requires blt04-rvm
     include rvm
     rvm_system_ruby { 'ruby-2.0.0-p0-dev':
       ensure      => present,
@@ -12,27 +11,21 @@ class kibana::install {
       require      => Rvm_system_ruby['ruby-2.0.0-p0-dev'],
       before       => Exec['bundler'],
     }
-    # rvm::system_user { [ 'jbartko' ]: }
   } else {
-    # TODO: modulefile requires puppetlabs-ruby
     class { 'ruby':
       version         => 'latest',
       gems_version    => 'latest',
       rubygems_update => false,
     }
-
   }
-
-  # TODO: parameterize this
-  $dir = '/srv/www/kibana'
 
   class { 'apache': default_vhost => false, }
 
-  # TODO: modulefile requires puppetlabs-git
   include git
 
-  # TODO: modulefile requires vcsrepo
-  vcsrepo { $dir:
+  file { $kibana::install_dir_real: ensure => directory }
+
+  vcsrepo { $kibana::install_dir_real:
     ensure   => present,
     provider => 'git',
     source   => 'git://github.com/rashidkpc/Kibana.git',
@@ -43,9 +36,9 @@ class kibana::install {
   exec { 'bundler':
     command => 'bundle install',
     path    => $::path,
-    cwd     => $dir,
+    cwd     => $kibana::install_dir_real,
     unless  => 'bundle check',
-    require => [ Vcsrepo[$dir] ],
+    require => [ Vcsrepo[$kibana::install_dir_real] ],
   }
 }
 

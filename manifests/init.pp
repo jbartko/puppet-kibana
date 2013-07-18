@@ -35,12 +35,23 @@
 #
 # Copyright 2013 Your name here, unless otherwise noted.
 #
-class kibana($rvm = 'UNSET') {
+class kibana(
+  $rvm = 'UNSET',
+  $install_dir = 'UNSET'
+) {
   include kibana::params
+
   $rvm_real = $rvm ? {
     'UNSET' => false,
     default => $rvm,
   }
+  validate_bool($rvm_real)
+
+  $install_dir_real = $install_dir ? {
+    'UNSET' => '/srv/www/kibana',
+    default => $install_dir,
+  }
+
   class { 'kibana::install': } ->
   class { 'kibana::config': } ~>
   class { 'kibana::service': } ->
