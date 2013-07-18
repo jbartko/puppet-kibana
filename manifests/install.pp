@@ -23,16 +23,15 @@ class kibana::install {
 
   }
 
-  # TODO: parameterize this
-  $dir = '/srv/www/kibana'
-
   class { 'apache': default_vhost => false, }
 
   # TODO: modulefile requires puppetlabs-git
   include git
 
+  file { $kibana::install_dir_real: ensure => directory }
+
   # TODO: modulefile requires vcsrepo
-  vcsrepo { $dir:
+  vcsrepo { $kibana::install_dir_real:
     ensure   => present,
     provider => 'git',
     source   => 'git://github.com/rashidkpc/Kibana.git',
@@ -43,9 +42,9 @@ class kibana::install {
   exec { 'bundler':
     command => 'bundle install',
     path    => $::path,
-    cwd     => $dir,
+    cwd     => $kibana::install_dir_real,
     unless  => 'bundle check',
-    require => [ Vcsrepo[$dir] ],
+    require => [ Vcsrepo[$kibana::install_dir_real] ],
   }
 }
 
