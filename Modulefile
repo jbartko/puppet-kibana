@@ -4,8 +4,8 @@ source 'https://github.com/jbartko/puppet-kibana'
 author 'John Bartko <jbartko@gmail.com>'
 license 'Apache License, Version 2.0'
 summary 'Puppet module for Kibana'
-description 'This module deploys Rashid Khan's Kibana frontend for
-  elasticsearch and logstash.'
+description "This module deploys Rashid Khan's Kibana frontend for
+  elasticsearch and logstash."
 
 dependency 'blt04/puppet-rvm',   '>= 1.x'
 dependency 'puppetlabs/git',     '>= 0.0.2'
