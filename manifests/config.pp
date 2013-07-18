@@ -3,9 +3,9 @@ class kibana::config {
     port     => '8080',
     docroot  => '/srv/www/kibana/public',
     options  => [ '-Indexes', '-MultiViews' ],
-    override => 'None'
+    override => [ 'None' ],
   }
-  if $kibana::rvm == true {
+  if $kibana::rvm_real == true {
     class { 'rvm::passenger::apache':
       version      => '4.0.2',
       ruby_version => 'ruby-2.0.0-p0-dev',
