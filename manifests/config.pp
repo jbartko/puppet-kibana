@@ -8,7 +8,6 @@ class kibana::config {
     require  => Class['git'],
     notify   => Exec['bundler'],
   }
-
   exec { 'bundler':
     command => 'bundle install',
     path    => $::path,
@@ -18,6 +17,12 @@ class kibana::config {
                   Class['ruby::dev'],
                   Class['bundler'],
                   Vcsrepo[$kibana::install_dir]  ],
+    notify  => Exec['httpd-restart'],
+  }
+  file { "${kibana::install_dir}/KibanaConfig.rb":
+    ensure  => present,
+    content => template('kibana/KibanaConfig.erb'),
+    require => Vcsrepo[$kibana::install_dir],
     notify  => Exec['httpd-restart'],
   }
 
