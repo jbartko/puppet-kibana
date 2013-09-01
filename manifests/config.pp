@@ -24,6 +24,11 @@ class kibana::config {
 #    notify  => Exec['httpd-restart'],
 #  }
 
+  file { "${kibana::install_dir}/dashboards/default.json":
+    ensure => link,
+    target => 'logstash.json',
+  }
+
   apache::vhost { "${::fqdn}-kibana-vhost":
     port      => '80',
     ip        => $::ipaddress,
