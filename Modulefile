@@ -1,7 +1,7 @@
 name 'puppet-kibana'
-version '0.1.0'
+version '0.2.0'
 source 'https://github.com/jbartko/puppet-kibana'
-author 'John Bartko <jbartko@gmail.com>'
+author 'John Bartko <jbartko@txstate.edu>'
 license 'Apache License, Version 2.0'
 summary 'Puppet module for Kibana'
 description "This module deploys Rashid Khan's Kibana frontend for
