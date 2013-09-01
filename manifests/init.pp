@@ -44,8 +44,7 @@ class kibana(
   validate_bool($rvm)
 
   class { 'kibana::install': } ->
-  class { 'kibana::config': } ~>
-  class { 'kibana::service': } ->
+  class { 'kibana::config': } ->
   Class['kibana']
 }
 

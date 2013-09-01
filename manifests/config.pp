@@ -1,5 +1,13 @@
 #
 class kibana::config {
+  vcsrepo { $kibana::install_dir:
+    ensure   => latest,
+    provider => 'git',
+    source   => 'git://github.com/rashidkpc/Kibana.git',
+    revision => 'kibana-ruby',
+    require  => Class['git'],
+  }
+
   apache::vhost { $::fqdn:
     port     => '80',
     docroot  => '/srv/www/kibana/public',
