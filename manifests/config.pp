@@ -6,6 +6,19 @@ class kibana::config {
     source   => 'git://github.com/rashidkpc/Kibana.git',
     revision => 'kibana-ruby',
     require  => Class['git'],
+    notify   => Exec['httpd-restart'],
+  }
+
+  exec { 'bundler':
+    command => 'bundle install',
+    path    => $::path,
+    cwd     => $kibana::install_dir,
+    unless  => 'bundle check',
+    require => [  Class['gcc'],
+                  Class['ruby::dev'],
+                  Class['bundler'],
+                  Vcsrepo[$kibana::install_dir]  ],
+    notify  => Exec['httpd-restart'],
   }
 
   apache::vhost { $::fqdn:
@@ -24,10 +37,11 @@ class kibana::config {
   } else {
     include apache::mod::passenger
   }
-}
 
-if defined(Class['kibana']) {
-  Class['kibana::config'] ~> Service['httpd']
+  exec { 'httpd-restart':
+    command     => '/sbin/service httpd restart',
+    refreshonly => true,
+  }
 }
 
 # vim: ts=2 sw=2 et ft=puppet:

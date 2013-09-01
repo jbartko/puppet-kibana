@@ -27,17 +27,6 @@ class kibana::install {
   include git
 
   file { $kibana::install_root: ensure => directory }
-
-  exec { 'bundler':
-    command => 'bundle install',
-    path    => $::path,
-    cwd     => $kibana::install_dir,
-    unless  => 'bundle check',
-    require => [  Class['gcc'],
-                  Class['ruby::dev'],
-                  Class['bundler'],
-                  Vcsrepo[$kibana::install_dir]  ],
-  }
 }
 
 # vim: set ts=2 sw=2 et ft=puppet:
