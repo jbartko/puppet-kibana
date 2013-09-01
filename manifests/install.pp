@@ -1,4 +1,5 @@
 class kibana::install {
+  include gcc
   if $kibana::rvm == true {
     include rvm
     rvm_system_ruby { 'ruby-2.0.0-p0-dev':
@@ -40,7 +41,8 @@ class kibana::install {
     path    => $::path,
     cwd     => $kibana::install_dir,
     unless  => 'bundle check',
-    require => [  Class['ruby::dev'],
+    require => [  Class['gcc'],
+                  Class['ruby::dev'],
                   Class['bundler'],
                   Vcsrepo[$kibana::install_dir]  ],
   }
