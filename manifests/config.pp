@@ -6,7 +6,7 @@ class kibana::config {
     source   => 'git://github.com/rashidkpc/Kibana.git',
     revision => 'kibana-ruby',
     require  => Class['git'],
-    notify   => Exec['httpd-restart'],
+    notify   => Exec['bundler'],
   }
 
   exec { 'bundler':
