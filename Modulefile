@@ -7,8 +7,9 @@ summary 'Puppet module for Kibana'
 description "This module deploys Rashid Khan's Kibana frontend for
   elasticsearch and logstash."
 
-dependency 'blt04/puppet-rvm',   '>= 1.x'
-dependency 'puppetlabs/git',     '>= 0.0.2'
-dependency 'puppetlabs/ruby',    '>= 0.0.2'
-dependency 'puppetlabs/stdlib',  '>= 2.1.x'
-dependency 'puppetlabs/vcsrepo', '>= 0.1.2'
+dependency 'blt04/puppet-rvm',     '>= 1.x'
+dependency 'puppetlabs/git',       '>= 0.0.2'
+dependency 'puppetlabs/ruby',      '>= 0.0.2'
+dependency 'puppetlabs/stdlib',    '>= 2.1.x'
+dependency 'puppetlabs/vcsrepo',   '>= 0.1.2'
+dependency 'ploperations/bundler', '>= 0.1.2'

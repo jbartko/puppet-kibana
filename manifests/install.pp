@@ -17,6 +17,8 @@ class kibana::install {
       gems_version    => 'latest',
       rubygems_update => false,
     }
+    include ruby::dev
+    include bundler
   }
 
   class { 'apache': default_vhost => false, }
@@ -38,7 +40,9 @@ class kibana::install {
     path    => $::path,
     cwd     => $kibana::install_dir,
     unless  => 'bundle check',
-    require => [ Vcsrepo[$kibana::install_dir] ],
+    require => [  Class['ruby::dev'],
+                  Class['bundler'],
+                  Vcsrepo[$kibana::install_dir]  ],
   }
 }
 
