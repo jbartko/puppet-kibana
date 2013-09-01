@@ -1,11 +1,12 @@
+#
 class kibana::config {
   apache::vhost { $::fqdn:
-    port     => '8080',
+    port     => '80',
     docroot  => '/srv/www/kibana/public',
     options  => [ '-Indexes', '-MultiViews' ],
     override => [ 'None' ],
   }
-  if $kibana::rvm_real == true {
+  if $kibana::rvm == true {
     class { 'rvm::passenger::apache':
       version      => '4.0.2',
       ruby_version => 'ruby-2.0.0-p0-dev',
