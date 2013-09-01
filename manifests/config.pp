@@ -26,8 +26,10 @@ class kibana::config {
     notify  => Exec['httpd-restart'],
   }
 
-  apache::vhost { $::fqdn:
+  apache::vhost { "${::fqdn}-kibana-vhost":
     port     => '80',
+    ip       => $::ipaddress,
+    ip_based => true,
     docroot  => '/srv/www/kibana/public',
     options  => [ '-Indexes', '-MultiViews' ],
     override => [ 'None' ],
