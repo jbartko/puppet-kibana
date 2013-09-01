@@ -1,5 +1,6 @@
 class kibana::install {
-  if $kibana::rvm_real == true {
+  include gcc
+  if $kibana::rvm == true {
     include rvm
     rvm_system_ruby { 'ruby-2.0.0-p0-dev':
       ensure      => present,
@@ -17,40 +18,15 @@ class kibana::install {
       gems_version    => 'latest',
       rubygems_update => false,
     }
+    include ruby::dev
+    include bundler
   }
 
   class { 'apache': default_vhost => false, }
 
   include git
 
-  file { $kibana::install_dir_real: ensure => directory }
-
-  vcsrepo { $kibana::install_dir_real:
-    ensure   => present,
-    provider => 'git',
-    source   => 'git://github.com/rashidkpc/Kibana.git',
-    revision => 'kibana-ruby',
-    require  => Class['git'],
-  }
-
-  exec { 'bundler':
-    command => 'bundle install',
-    path    => $::path,
-    cwd     => $kibana::install_dir_real,
-    unless  => 'bundle check',
-    require => [ Vcsrepo[$kibana::install_dir_real] ],
-  }
+  file { $kibana::install_root: ensure => directory }
 }
-
-# dirty dirty systemruby hack
-class bundler {
-  package { 'bundler':
-    ensure   => latest,
-    provider => 'gem',
-    require  => Class['ruby'],
-    before   => Exec['bundler'],
-  }
-}
-# Warning: puppet abuse!
 
 # vim: set ts=2 sw=2 et ft=puppet:
