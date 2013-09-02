@@ -7,6 +7,11 @@ class kibana::config {
     require  => Class['git'],
   }
 
+  file { "${kibana::install_dir}/config.js":
+    ensure  => present,
+    content => template('kibana/config.erb'),
+  }
+
   file { "${kibana::install_dir}/dashboards/default.json":
     ensure => link,
     target => 'logstash.json',
