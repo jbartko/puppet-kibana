@@ -1,5 +1,5 @@
 name 'puppet-kibana'
-version '0.3.1'
+version '0.3.2'
 source 'https://github.com/jbartko/puppet-kibana'
 author 'John Bartko <jbartko@txstate.edu>'
 license 'Apache License, Version 2.0'
