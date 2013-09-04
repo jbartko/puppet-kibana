@@ -39,6 +39,7 @@ class kibana(
   $es_host      = $kibana::params::es_host,
   $es_port      = $kibana::params::es_port,
   $install_root = $kibana::params::install_root,
+  $version      = $kibana::params::version,
 ) inherits kibana::params {
   $install_dir = "${install_root}/kibana"
   class { 'kibana::install': } ->

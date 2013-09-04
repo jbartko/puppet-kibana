@@ -2,7 +2,7 @@
 class kibana::config {
   vcsrepo { $kibana::install_dir:
     ensure   => latest,
-    revision => 'v3.0.0milestone3',
+    revision => $kibana::version,
     provider => 'git',
     source   => 'git://github.com/elasticsearch/kibana.git',
     require  => Class['git'],
