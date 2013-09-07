@@ -18,12 +18,24 @@ class kibana::config {
     target => 'logstash.json',
   }
 
-  apache::vhost { "${::fqdn}-kibana-vhost":
-    port      => '80',
-    ip        => $::ipaddress,
-    ip_based  => true,
-    docroot   => '/srv/www/kibana',
-    require   => Vcsrepo[$kibana::install_dir],
+  if $kibana::ldap_enable != false {
+    apache::vhost { "${::fqdn}-kibana-vhost":
+      port            => '80',
+      ip              => $::ipaddress,
+      ip_based        => true,
+      docroot         => '/srv/www/kibana',
+      custom_fragment => $kibana::ldap_enable,
+      require         => Vcsrepo[$kibana::install_dir],
+    }
+  }
+  else {
+    apache::vhost { "${::fqdn}-kibana-vhost":
+      port     => '80',
+      ip       => $::ipaddress,
+      ip_based => true,
+      docroot  => '/srv/www/kibana',
+      require  => Vcsrepo[$kibana::install_dir],
+    }
   }
 }
 
