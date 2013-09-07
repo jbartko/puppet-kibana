@@ -19,7 +19,6 @@ class kibana::config {
   }
 
   if $kibana::ldap_enable != false {
-    include apache::mod::ldap
     apache::vhost { "${::fqdn}-kibana-vhost":
       port            => '80',
       ip              => $::ipaddress,
