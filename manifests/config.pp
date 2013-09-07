@@ -24,7 +24,7 @@ class kibana::config {
       ip              => $::ipaddress,
       ip_based        => true,
       docroot         => '/srv/www/kibana',
-      custom_fragment => $kibana::ldap_enable,
+      custom_fragment => template($kibana::ldap_enable),
       require         => Vcsrepo[$kibana::install_dir],
     }
   }
