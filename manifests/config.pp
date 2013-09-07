@@ -19,6 +19,7 @@ class kibana::config {
   }
 
   if $kibana::ldap_enable != false {
+    ensure_packages('mod_authz_ldap')
     apache::vhost { "${::fqdn}-kibana-vhost":
       port            => '80',
       ip              => $::ipaddress,
@@ -26,6 +27,10 @@ class kibana::config {
       docroot         => '/srv/www/kibana',
       custom_fragment => template($kibana::ldap_enable),
       require         => Vcsrepo[$kibana::install_dir],
+    }
+    file { '/etc/httpd/conf.d/00-mod_authz_ldap-directives.conf':
+      ensure => present,
+      source => 'puppet:///modules/kibana/ldap-directives.conf',
     }
   }
   else {
