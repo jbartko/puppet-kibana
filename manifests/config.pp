@@ -19,7 +19,7 @@ class kibana::config {
   }
 
   if $kibana::ldap_enable != false {
-    ensure_packages('mod_authz_ldap')
+    ensure_packages([ 'mod_authz_ldap' ])
     apache::vhost { "${::fqdn}-kibana-vhost":
       port            => '80',
       ip              => $::ipaddress,
