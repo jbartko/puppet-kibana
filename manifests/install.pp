@@ -3,11 +3,8 @@ class kibana::install {
 
   class { 'apache':
     default_vhost => false,
-    purge_configs => false,
   }
-  if $kibana::ldap_enable != false {
-    ensure_packages([ 'mod_authz_ldap' ])
-  }
+  include apache::mod::authnz_ldap
 
   file { $kibana::install_root: ensure => directory }
 }

@@ -25,13 +25,7 @@ class kibana::config {
       ip_based        => true,
       docroot         => '/srv/www/kibana',
       custom_fragment => template($kibana::ldap_enable),
-      require         => [ File['ldap-directives'],
-                            Vcsrepo[$kibana::install_dir] ]
-    }
-    file { 'ldap-directives':
-      ensure => present,
-      path   => '/etc/httpd/conf.d/00-mod_authz_ldap-directives.conf',
-      source => 'puppet:///modules/kibana/ldap-directives.conf',
+      require         => Vcsrepo[$kibana::install_dir],
     }
   }
   else {
