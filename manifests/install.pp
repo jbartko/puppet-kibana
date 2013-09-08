@@ -4,7 +4,6 @@ class kibana::install {
   class { 'apache':
     default_vhost => false,
   }
-  include apache::mod::authnz_ldap
 
   file { $kibana::install_root: ensure => directory }
 }
