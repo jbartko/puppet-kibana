@@ -25,6 +25,7 @@ class kibana::config {
       ip              => $::ipaddress,
       ip_based        => true,
       docroot         => '/srv/www/kibana',
+      options         => [ '-MultiViews', 'FollowSymLinks' ],
       custom_fragment => template($kibana::ldap_enable),
       require         => Vcsrepo[$kibana::install_dir],
     }
@@ -35,6 +36,7 @@ class kibana::config {
       ip       => $::ipaddress,
       ip_based => true,
       docroot  => '/srv/www/kibana',
+      options  => [ '-MultiViews', 'FollowSymLinks' ],
       require  => Vcsrepo[$kibana::install_dir],
     }
   }
