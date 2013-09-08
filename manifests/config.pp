@@ -20,6 +20,7 @@ class kibana::config {
 
   if $kibana::ldap_enable != false {
     include apache::mod::authnz_ldap
+    include apache::mod::proxy
     apache::vhost { "${::fqdn}-kibana-vhost":
       port            => '80',
       ip              => $::ipaddress,
