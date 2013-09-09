@@ -9,4 +9,5 @@ description "This module deploys Rashid Khan's Kibana frontend for
 
 dependency 'puppetlabs/apache',    '>= 0.8.x'
 dependency 'puppetlabs/git',       '>= 0.0.2'
+dependency 'puppetlabs/stdlib',    '>= 4.1.x'
 dependency 'puppetlabs/vcsrepo',   '>= 0.1.2'
