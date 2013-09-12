@@ -40,6 +40,7 @@ class kibana(
   $es_port      = $kibana::params::es_port,
   $install_root = $kibana::params::install_root,
   $ldap_enable  = $kibana::params::ldap_enable,
+  $proxy_enable = $kibana::params::proxy_enable,
   $version      = $kibana::params::version,
 ) inherits kibana::params {
   $install_dir = "${install_root}/kibana"
