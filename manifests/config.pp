@@ -20,8 +20,9 @@ class kibana::config {
 
   if $kibana::ldap_enable != false {
     class { 'apache::mod::authnz_ldap':
-      ldap_directives => [ 'LDAPVerifyServerCert On',
-        'LDAPTrustedGlobalCert CA_BASE64 /etc/pki/tls/certs/digicert.crt' ]
+      ldap_directives => [
+        'LDAPTrustedGlobalCert CA_BASE64 /etc/pki/tls/certs/digicert.crt'
+      ]
     }
     include apache::mod::proxy
     include apache::mod::proxy_http
